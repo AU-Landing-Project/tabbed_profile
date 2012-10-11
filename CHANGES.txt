@@ -1,0 +1,6 @@
+== VERSION HISTORY ==
+
+x.x
+
+1.0 ():
+ - initial release
