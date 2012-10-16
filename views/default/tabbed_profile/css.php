@@ -21,3 +21,7 @@
 .elgg-tabs li a.tabbed-profile {
   display: inline-block;
 }
+
+.tabbed_profile_iframe_height {
+  width: 60px;
+}

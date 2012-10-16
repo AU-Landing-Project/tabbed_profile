@@ -5,35 +5,47 @@ function tabbed_profile_user_router($hook, $type, $return, $params) {
   elgg_load_library('tabbed_profile');
   elgg_load_js('tabbed_profile.js');
   
+  $user = get_user_by_username($return['segments'][0]);
+  
   if ($return['segments'][1] == 'tab') {
-    // sanity checking
-    $user = get_user_by_username($return['segments'][0]);
-    
+    // sanity checking  
     if (!$user) {
       return $return;
     }
     
-    $profile = get_entity($return[2]);
+    $profile = get_entity($return['segments'][2]);
+    
     if (!elgg_instanceof($profile, 'object', 'tabbed_profile')) {
       return $return;
     }
     
-    // so we have a valid user and a valid profile)
+    // so we have a valid user and a valid profile
+    elgg_set_page_owner_guid($user->getGUID());
+    tabbed_profile_draw_user_profile($profile);
+    return true;
   }
   
   // default profile page
-  $user = get_user($return['segments'][0]);
-  if ($user) {
+  // show the first profile we have access to see
+  if ($user && $user->tabbed_profile_setup) {
     $profile = elgg_get_entities_from_metadata(array(
       'types' => array('object'),
       'subtypes' => array('tabbed_profile'),
-      'owner_guids' => array($user->getGUID()),
+      'container_guids' => array($user->getGUID()),
       'metadata_names' => array('order'),
       'order_by_metadata' => array('name' => 'order', 'direction' => 'ASC', 'as' => 'integer'),
       'limit' => 1
     ));
     
-    if ($profile && !$profile[0]->default) {
+    if (!$profile 
+            && elgg_get_plugin_setting('private_user_profile', 'tabbed_profile') != 'no'
+            && !$user->canEdit()
+            ) {
+      forward('', '404');
+    }
+    
+    // forward to the first tab we have access to
+    if ($profile && !$profile[0]->default && elgg_get_plugin_setting('private_user_profile', 'tabbed_profile') != 'no') {
       forward($profile[0]->getURL());
     }
   }
@@ -55,5 +67,12 @@ function tabbed_profile_group_router($hook, $type, $return, $params) {
 function tabbed_profile_permissions_check($hook, $type, $return, $params) {
   if (elgg_get_context() == 'tabbed_profile_permissions') {
     return true;
+  }
+}
+
+
+function tabbed_profile_widget_context_normalize($hook, $type, $return, $params) {
+  if (strpos($return, 'tabbed_profile_user_') !== false) {
+    return 'profile';
   }
 }

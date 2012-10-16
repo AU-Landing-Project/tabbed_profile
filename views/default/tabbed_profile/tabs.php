@@ -6,18 +6,19 @@ $page_owner = elgg_get_page_owner_entity();
 $profiles = elgg_get_entities_from_metadata(array(
     'types' => array('object'),
     'subtypes' => array('tabbed_profile'),
-    'owner_guids' => array($page_owner->getGUID()),
+    'container_guids' => array($page_owner->getGUID()),
     'metadata_names' => array('order'),
     'order_by_metadata' => array('name' => 'order', 'direction' => 'ASC', 'as' => 'integer'),
     'limit' => 7
 ));
 
-if ((!$profiles || !is_array($profiles))) {
+if ((!$profiles || !is_array($profiles)) && $page_owner->canEdit()) {
   $profiles = array();
   $profiles[] = tabbed_profile_generate_default_profile($page_owner);
 }
 
 $tabs = array();
+$defaultdetected = false;
 
 if ($profiles) {
   foreach ($profiles as $profile) {
@@ -33,8 +34,27 @@ if ($profiles) {
       'link_class' => 'tabbed_profile',
       'rel' => $profile->getGUID()
     );
+    
+    if ($profile->default) {
+      $defaultdetected = true;
+    }
+    //$profile->delete();
   }
 }
+
+
+if (!$defaultdetected && elgg_get_plugin_setting('private_user_profile', 'tabbed_profile') == 'no') {
+  // if there's still no default tab, and we can't create one, and default privacy is turned off
+  // we need to default it
+  $default = array(
+    'text' => elgg_echo('tabbed_profile:default'),
+      'href' => $page_owner->getURL(),
+      'selected' => ($page_owner->getURL() == current_page_url())
+  );
+  
+  array_unshift($tabs, $default);
+}
+
 
 if ($page_owner->canEdit() && count($profiles < 7)) {
   elgg_load_js('lightbox');
@@ -49,4 +69,7 @@ if ($page_owner->canEdit() && count($profiles < 7)) {
   );
 }
 
-echo elgg_view('navigation/tabs', array('tabs' => $tabs));
+// only show tabs if we're editing, or if there's more than one
+if ($page_owner->canEdit() || count($tabs) > 1) {
+  echo elgg_view('navigation/tabs', array('tabs' => $tabs));
+}
