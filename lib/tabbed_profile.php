@@ -2,6 +2,10 @@
 
 function tabbed_profile_draw_user_profile($profile) {
   $layout = 'tabbed_profile_' . $profile->profile_type;
+  $owner = $profile->getContainerEntity();
+  
+  elgg_push_breadcrumb($owner->name, $owner->getURL());
+  elgg_push_breadcrumb($profile->title);
   
   $params = array('profile' => $profile);
   
@@ -13,10 +17,64 @@ function tabbed_profile_draw_user_profile($profile) {
     $params['num_columns'] = (int) $profile->widget_layout;
   }
   
-	$body = elgg_view_layout($layout, $params);
+	$content = elgg_view_layout($layout, $params);
+  
+  $body = elgg_view_layout('one_column', array(
+      'content' => $content,
+      'title' => $owner->name
+  ));
   
   echo elgg_view_page($profile->title, $body);
 }
+
+
+function tabbed_profile_draw_group_profile($profile) {
+  // turn this into a core function
+	global $autofeed;
+	$autofeed = true;
+
+	elgg_push_context('group_profile');
+
+	$group = elgg_get_page_owner_entity();
+
+	elgg_push_breadcrumb($group->name);
+
+	groups_register_profile_buttons($group);
+  
+  if ($profile->profile_type == 'iframe') {
+    elgg_set_context('tabbed-profile-group');
+    $content = elgg_view_layout('tabbed_profile_iframe', array('profile' => $profile));
+    $body = elgg_view_layout('one_column', array(
+        'content' => $content,
+        'title' => $group->name
+    ));
+    echo elgg_view_page($profile->title, $body);
+    return true;
+  }
+  
+	$content = elgg_view('groups/profile/layout', array('entity' => $group, 'profile' => $profile));
+	if (group_gatekeeper(false)) {
+		$sidebar = '';
+		if (elgg_is_active_plugin('search')) {
+			$sidebar .= elgg_view('groups/sidebar/search', array('entity' => $group));
+		}
+		$sidebar .= elgg_view('groups/sidebar/members', array('entity' => $group));
+	} else {
+		$sidebar = '';
+	}
+
+	$params = array(
+		'content' => $content,
+		'sidebar' => $sidebar,
+		'title' => $group->name,
+		'filter' => '',
+	);
+	$body = elgg_view_layout('content', $params);
+
+	echo elgg_view_page($group->name, $body);
+}
+
+
 
 function tabbed_profile_generate_default_profile($page_owner) {
   if (!elgg_instanceof($page_owner, 'user') && !elgg_instanceof($page_owner, 'group')) {

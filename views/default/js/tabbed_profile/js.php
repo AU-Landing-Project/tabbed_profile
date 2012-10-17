@@ -1,4 +1,3 @@
-
 $(document).ready(function() {
 
   // load the add/edit form in a lightbox

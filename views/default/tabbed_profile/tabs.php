@@ -63,7 +63,7 @@ if ($page_owner->canEdit() && count($profiles < 7)) {
   $tabs[] = array(
     'text' => '<span class="elgg-icon elgg-icon-round-plus"></span>',
       'href' => elgg_get_site_url() . 'ajax/view/tabbed_profile/edit?guid=' . $page_owner->getGUID(),
-      'class' => 'tabbed-profile-add',
+      'class' => 'tabbed-profile-add elgg-state-fixed',
       'link_class' => 'elgg-lightbox',
       'selected' => false
   );

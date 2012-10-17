@@ -52,13 +52,49 @@ function tabbed_profile_user_router($hook, $type, $return, $params) {
 }
 
 
+
 function tabbed_profile_group_router($hook, $type, $return, $params) {
   
-  elgg_load_library('tabbed_profile');
-  elgg_load_js('tabbed_profile.js');
-  
   if ($return['segments'][0] == 'profile') {
+    elgg_load_library('tabbed_profile');
+    elgg_load_library('elgg:groups');
+    elgg_load_js('tabbed_profile.js');
     
+    $group = get_entity($return['segments'][1]);
+    if (!elgg_instanceof($group, 'group')) {
+      return $return;
+    }
+    
+    if ($return['segments'][3] == 'tab') {      
+      $profile = get_entity($return['segments'][4]);
+    
+      if (!elgg_instanceof($profile, 'object', 'tabbed_profile')) {
+        return $return;
+      }
+    
+      // so we have a valid group and a valid profile
+      elgg_set_page_owner_guid($group->getGUID());
+      tabbed_profile_draw_group_profile($profile);
+      return true;
+    }
+    
+    // default profile page
+    // show the first profile we have access to see
+    if ($group && $group->tabbed_profile_setup) {
+      $profile = elgg_get_entities_from_metadata(array(
+        'types' => array('object'),
+        'subtypes' => array('tabbed_profile'),
+        'container_guids' => array($group->getGUID()),
+        'metadata_names' => array('order'),
+        'order_by_metadata' => array('name' => 'order', 'direction' => 'ASC', 'as' => 'integer'),
+        'limit' => 1
+      ));
+    
+      // forward to the first tab we have access to
+      if ($profile && !$profile[0]->default) {
+        forward($profile[0]->getURL());
+      }
+    }
   }
 }
 
