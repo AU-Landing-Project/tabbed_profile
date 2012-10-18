@@ -94,7 +94,8 @@ function tabbed_profile_generate_default_profile($page_owner) {
   $profile->order = 1;
   $profile->default = 1;
   $profile->profile_type = 'widgets';
-  $profile->widget_layout = 3;
+  $profile->widget_layout = elgg_instanceof($page_owner, 'user') ? 3 : 2;
+  $profile->group_sidebar = 'yes';
   
   $page_owner->tabbed_profile_setup = 1;
   

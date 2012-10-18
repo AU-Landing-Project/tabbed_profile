@@ -25,6 +25,7 @@ if ($profiles) {
     $text = $profile->title;
     if ($page_owner->canEdit()) {
       $text .= '<span class="elgg-icon elgg-icon-settings-alt tabbed-profile-edit"></span>';
+      $class = 'tabbed-profile-sortable';
     }
 
     $tabs[] = array(
@@ -32,6 +33,7 @@ if ($profiles) {
       'href' => $profile->getURL(),
       'selected' => ($profile->getURL() == current_page_url()),
       'link_class' => 'tabbed_profile',
+      'class' => $class,
       'rel' => $profile->getGUID()
     );
     
@@ -71,5 +73,5 @@ if ($page_owner->canEdit() && count($profiles < 7)) {
 
 // only show tabs if we're editing, or if there's more than one
 if ($page_owner->canEdit() || count($tabs) > 1) {
-  echo elgg_view('navigation/tabs', array('tabs' => $tabs));
+  echo elgg_view('navigation/tabs', array('tabs' => $tabs, 'id' => 'profile-tabs-container'));
 }

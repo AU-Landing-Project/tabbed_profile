@@ -35,6 +35,7 @@ function tabbed_profile_init() {
  
  // register actions
  elgg_register_action('tabbed_profile/edit', dirname(__FILE__) . '/actions/tabbed_profile/edit.php');
+ elgg_register_action('tabbed_profile/order', dirname(__FILE__) . '/actions/tabbed_profile/order.php');
  
  elgg_register_ajax_view('tabbed_profile/edit');
 }

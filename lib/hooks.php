@@ -16,7 +16,7 @@ function tabbed_profile_user_router($hook, $type, $return, $params) {
     $profile = get_entity($return['segments'][2]);
     
     if (!elgg_instanceof($profile, 'object', 'tabbed_profile')) {
-      return $return;
+      forward($user->getURL());
     }
     
     // so we have a valid user and a valid profile
@@ -45,7 +45,7 @@ function tabbed_profile_user_router($hook, $type, $return, $params) {
     }
     
     // forward to the first tab we have access to
-    if ($profile && !$profile[0]->default && elgg_get_plugin_setting('private_user_profile', 'tabbed_profile') != 'no') {
+    if ($profile && !$profile[0]->default) {
       forward($profile[0]->getURL());
     }
   }

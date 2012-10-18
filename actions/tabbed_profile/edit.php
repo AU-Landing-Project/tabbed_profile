@@ -57,7 +57,7 @@ if (!$profile) {
   
   $profile = new ElggObject();
   $profile->subtype = 'tabbed_profile';
-  $profile->owner_guid = $container->getGUID();
+  $profile->owner_guid = elgg_get_logged_in_user_guid();
   $profile->container_guid = $container->getGUID();
   
   // set this tab as the last one

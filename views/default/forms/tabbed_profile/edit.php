@@ -25,67 +25,76 @@ echo elgg_view('input/text', array(
     'value' => $profile->title ? $profile->title : '',
 ));
 
-echo "<br><br>";
+if (!$profile->default) {
+  echo "<br><br>";
 
-// Profile Type
-echo "<label for='profile_type'>" . elgg_echo('tabbed_profile:profile_type') . "</label>&nbsp;&nbsp;";
-echo elgg_view('input/dropdown', array(
+  // Profile Type
+  echo "<label for='profile_type'>" . elgg_echo('tabbed_profile:profile_type') . "</label>&nbsp;&nbsp;";
+  echo elgg_view('input/dropdown', array(
     'id' => 'tabbed-profile-profile-type',
     'name' => 'profile_type',
     'value' => $profile->profile_type ? $profile->profile_type : 'widgets',
     'options_values' => array(
         'widgets' => elgg_echo('tabbed_profile:widgets'),
         'iframe' => elgg_echo('tabbed_profile:iframe')
-    )
-));
+      )
+  ));
 
-echo "<br><br>";
+  echo "<br><br>";
 
-// widgets profile type conditional settings
+  // widgets profile type conditional settings
 
-$style = ($profile && ($profile->profile_type != 'widgets')) ? ' style="display:none"' : '';
-echo '<div class="tabbed-profile-widgets-form"' . $style . '>';
-echo elgg_view('forms/tabbed_profile/widgets_conditional', array('entity' => $profile));
-echo '</div>';
+  $style = ($profile && ($profile->profile_type != 'widgets')) ? ' style="display:none"' : '';
+  echo '<div class="tabbed-profile-widgets-form"' . $style . '>';
+  echo elgg_view('forms/tabbed_profile/widgets_conditional', array('entity' => $profile));
+  echo '</div>';
 
 
-// iframe profile type conditional settings
-$style = ($profile && ($profile->profile_type == 'iframe')) ? '' : ' style="display:none"';
-echo '<div class="tabbed-profile-iframe-form"' . $style . '>';
-echo elgg_view('forms/tabbed_profile/iframe_conditional', array('entity' => $profile));
-echo '</div>';
+  // iframe profile type conditional settings
+  $style = ($profile && ($profile->profile_type == 'iframe')) ? '' : ' style="display:none"';
+  echo '<div class="tabbed-profile-iframe-form"' . $style . '>';
+  echo elgg_view('forms/tabbed_profile/iframe_conditional', array('entity' => $profile));
+  echo '</div>';
 
-if (elgg_instanceof($container, 'group')) {
-  echo "<label>" . elgg_echo('tabbed_profile:group:sidebar') . "</label>";
-  echo elgg_view('input/dropdown', array(
+  if (elgg_instanceof($container, 'group')) {
+    echo "<label>" . elgg_echo('tabbed_profile:group:sidebar') . "</label>";
+    echo elgg_view('input/dropdown', array(
       'name' => 'group_sidebar',
       'value' => $profile->group_sidebar ? $profile->group_sidebar : 'yes',
       'options_values' => array(
           'yes' => elgg_echo('option:yes'),
           'no' => elgg_echo('option:no')
-      )
-  ));
+        )
+    ));
   
-  echo "<br><br>";
+    echo "<br><br>";
+  }
 }
+
 
 
 // access
-$options = array('name' => 'access');
-if ($profile) {
-  $options['value'] = $profile->access_id;
-}
+if (!$profile->default
+        || (elgg_get_plugin_setting('private_user_profile', 'tabbed_profile') == 'yes' && elgg_instanceof($container, 'user'))
+        ) {
+  $options = array('name' => 'access');
+  if ($profile) {
+    $options['value'] = $profile->access_id;
+  }
 
-//if (!$profile->default) {
+
   echo "<label>" . elgg_echo('tabbed_profile:tab:access') . "</label><br>";
   echo elgg_view('input/access', $options);
   echo "<br><br>";
-//}
+}
 
-// option to delete
-if ($profile) {
-  echo elgg_view('input/checkbox', array('name' => 'delete', 'value' => 1, 'id' => 'tabbed-profile-delete-profile'));
-  echo elgg_echo('tabbed_profile:profile:delete');
+
+if (!$profile->default) {
+  // option to delete
+  if ($profile) {
+    echo elgg_view('input/checkbox', array('name' => 'delete', 'value' => 1, 'id' => 'tabbed-profile-delete-profile'));
+    echo elgg_echo('tabbed_profile:profile:delete');
+  }
 }
 
 echo "<br><br>";
