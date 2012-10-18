@@ -10,6 +10,7 @@ $widget_layout = get_input('widget_layout', 3);
 $widget_profile_display = get_input('widget_profile_display', 'yes');
 $iframe_url = get_input('iframe_url', false);
 $iframe_height = get_input('iframe_height', false);
+$group_sidebar = get_input('group_sidebar', 'yes');
 $delete = get_input('delete', false);
 $access = get_input('access');
 
@@ -60,6 +61,7 @@ $profile->widget_layout = $widget_layout;
 $profile->widget_profile_display = $widget_profile_display;
 $profile->iframe_url = $iframe_url;
 $profile->iframe_height = is_numeric($iframe_height) ? $iframe_height : 500;
+$profile->group_sidebar = $group_sidebar;
 
 
 system_message(elgg_echo('tabbed_profile:success:'.$action_type));

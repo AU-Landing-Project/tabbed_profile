@@ -31,6 +31,7 @@ $english = array(
     'tabbed_profile:widgets:display:profile' => 'Display profile details?',
     'tabbed_profile:iframe:height' => 'iFrame height',
     'tabbed_profile:tab:access' => "Who can see this profile?",
+    'tabbed_profile:group:sidebar' => "Display group sidebar?",
 );
 					
 add_translation("en",$english);

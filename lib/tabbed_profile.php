@@ -40,20 +40,11 @@ function tabbed_profile_draw_group_profile($profile) {
 	elgg_push_breadcrumb($group->name);
 
 	groups_register_profile_buttons($group);
+  elgg_set_context('tabbed-profile-group');
   
-  if ($profile->profile_type == 'iframe') {
-    elgg_set_context('tabbed-profile-group');
-    $content = elgg_view_layout('tabbed_profile_iframe', array('profile' => $profile));
-    $body = elgg_view_layout('one_column', array(
-        'content' => $content,
-        'title' => $group->name
-    ));
-    echo elgg_view_page($profile->title, $body);
-    return true;
-  }
-  
-	$content = elgg_view('groups/profile/layout', array('entity' => $group, 'profile' => $profile));
-	if (group_gatekeeper(false)) {
+  $layout = 'one_column';
+	if (group_gatekeeper(false) && $profile->group_sidebar == 'yes') {
+    $layout = 'content';
 		$sidebar = '';
 		if (elgg_is_active_plugin('search')) {
 			$sidebar .= elgg_view('groups/sidebar/search', array('entity' => $group));
@@ -62,6 +53,13 @@ function tabbed_profile_draw_group_profile($profile) {
 	} else {
 		$sidebar = '';
 	}
+  
+  if ($profile->profile_type == 'iframe') {
+    $content = elgg_view_layout('tabbed_profile_iframe', array('profile' => $profile));
+  }
+  else {
+    $content = elgg_view('groups/profile/layout', array('entity' => $group, 'profile' => $profile));
+  }
 
 	$params = array(
 		'content' => $content,
@@ -69,7 +67,7 @@ function tabbed_profile_draw_group_profile($profile) {
 		'title' => $group->name,
 		'filter' => '',
 	);
-	$body = elgg_view_layout('content', $params);
+	$body = elgg_view_layout($layout, $params);
 
 	echo elgg_view_page($group->name, $body);
 }

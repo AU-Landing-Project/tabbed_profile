@@ -5,7 +5,9 @@
 */ 
 $profile = $vars['profile'];
 	
-if(elgg_get_plugin_setting("group_enable", "widget_manager") == "yes" && $vars["entity"]->widget_manager_enable == "yes"){
+if(elgg_is_active_plugin('widget_manager')
+        && elgg_get_plugin_setting("group_enable", "widget_manager") == "yes"
+        && $vars["entity"]->widget_manager_enable == "yes"){
 	$params = array(
 				'num_columns' => $profile->widget_layout ? $profile->widget_layout : 2,
 				'exact_match' => true,

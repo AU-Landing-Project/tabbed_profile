@@ -55,6 +55,20 @@ echo '<div class="tabbed-profile-iframe-form"' . $style . '>';
 echo elgg_view('forms/tabbed_profile/iframe_conditional', array('entity' => $profile));
 echo '</div>';
 
+if (elgg_instanceof($container, 'group')) {
+  echo "<label>" . elgg_echo('tabbed_profile:group:sidebar') . "</label>";
+  echo elgg_view('input/dropdown', array(
+      'name' => 'group_sidebar',
+      'value' => $profile->group_sidebar ? $profile->group_sidebar : 'yes',
+      'options_values' => array(
+          'yes' => elgg_echo('option:yes'),
+          'no' => elgg_echo('option:no')
+      )
+  ));
+  
+  echo "<br><br>";
+}
+
 
 // access
 $options = array('name' => 'access');
