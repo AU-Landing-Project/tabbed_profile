@@ -24,7 +24,20 @@ if (!$container || !$container->canEdit() || ($profile && !$profile->canEdit()))
 // if we're deleting, we can take care of that and not worry about anything else
 if ($profile && $delete) {
   
-  //@TODO - delete any widgets on this profile
+  //delete any widgets on this profile
+  $widgets = elgg_get_entities_from_private_settings(array(
+      'types' => array('object'),
+      'subtypes' => array('widget'),
+      'owner_guids' => array($container->getGUID()),
+      'private_setting_name' => 'context',
+      'private_setting_value' => 'tabbed_profile_user_' . $profile->getGUID()
+  ));
+  
+  foreach($widgets as $widget) {
+    $widget->delete();
+  }
+  
+  // delete the profile
   $profile->delete();
   system_message(elgg_echo('tabbed_profile:tab:deleted'));
   forward($container->getURL());
