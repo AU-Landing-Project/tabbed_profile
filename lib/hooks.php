@@ -6,10 +6,17 @@ function tabbed_profile_user_router($hook, $type, $return, $params) {
   elgg_load_js('tabbed_profile.js');
   
   $user = get_user_by_username($return['segments'][0]);
+  $private = (elgg_get_plugin_setting('private_user_profile', 'tabbed_profile') != 'no');
   
   if ($return['segments'][1] == 'tab') {
     // sanity checking  
-    if (!$user) {
+    // short circuit if invalid or banned username
+    if (!$user || ($user->isBanned() && !elgg_is_admin_logged_in())) {
+  		register_error(elgg_echo('profile:notfound'));
+    	forward();
+    }
+  
+    if ($return['segments'][2] == 'default' && !$private) {
       return $return;
     }
     
@@ -17,6 +24,10 @@ function tabbed_profile_user_router($hook, $type, $return, $params) {
     
     if (!elgg_instanceof($profile, 'object', 'tabbed_profile')) {
       forward($user->getURL());
+    }
+    
+    if ($profile->default) {
+      return $return;
     }
     
     // so we have a valid user and a valid profile
@@ -36,17 +47,19 @@ function tabbed_profile_user_router($hook, $type, $return, $params) {
       'order_by_metadata' => array('name' => 'order', 'direction' => 'ASC', 'as' => 'integer'),
       'limit' => 1
     ));
-    
-    if (!$profile 
-            && elgg_get_plugin_setting('private_user_profile', 'tabbed_profile') != 'no'
-            && !$user->canEdit()
-            ) {
-      forward('', '404');
-    }
-    
+        
     // forward to the first tab we have access to
+    // default profile gets handled by the profile plugin
     if ($profile && !$profile[0]->default) {
       forward($profile[0]->getURL());
+    }
+    
+    if (!$profile 
+            && $private
+            && !$user->canEdit()
+            ) {
+      register_error(elgg_echo('tabbed_profile:private:profile'));
+      forward(REFERER);
     }
   }
 }

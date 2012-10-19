@@ -45,10 +45,5 @@ function tabbed_profile_init() {
 // generate urls for profile tabs
 function tabbed_profile_url_handler($object) {
   $container = $object->getContainerEntity();
-  
-  if ($object->default) {
-    return $container->getURL();
-  }
-
   return $container->getURL() . '/tab/' . $object->getGUID() . '/' . elgg_get_friendly_title($object->title);
 }

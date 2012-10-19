@@ -8,6 +8,7 @@ $english = array(
     'tabbed_profile:success:create' => "Profile tab has been created",
     'tabbed_profile:success:update' => "Profile tab has been updated",
     'tabbed_profile:user:widget:title' => "Add widgets to your profile",
+    'tabbed_profile:private:profile' => "You don't have the required permissions to view this profile",
     
     /* Settings */
     'tabbed_profile:settings:user_enable' => "Enable tabbed user profiles?",

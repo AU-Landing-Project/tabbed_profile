@@ -50,8 +50,8 @@ if (!$defaultdetected && elgg_get_plugin_setting('private_user_profile', 'tabbed
   // we need to default it
   $default = array(
     'text' => elgg_echo('tabbed_profile:default'),
-      'href' => $page_owner->getURL(),
-      'selected' => ($page_owner->getURL() == current_page_url())
+      'href' => $page_owner->getURL() . '/tab/default',
+      'selected' => ($page_owner->getURL() . '/tab/default' == current_page_url())
   );
   
   array_unshift($tabs, $default);
