@@ -29,3 +29,7 @@
 li.tabbed-profile-sortable, li.tabbed-profile-sortable a {
   cursor: move;
 }
+
+li.tabbed-profile-sortable a span.tabbed-profile-edit {
+  cursor: pointer;
+}
