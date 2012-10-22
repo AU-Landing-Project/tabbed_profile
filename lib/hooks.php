@@ -84,6 +84,10 @@ function tabbed_profile_group_router($hook, $type, $return, $params) {
       if (!elgg_instanceof($profile, 'object', 'tabbed_profile')) {
         return $return;
       }
+      
+      if ($profile->default) {
+        return $return;
+      }
     
       // so we have a valid group and a valid profile
       elgg_set_page_owner_guid($group->getGUID());

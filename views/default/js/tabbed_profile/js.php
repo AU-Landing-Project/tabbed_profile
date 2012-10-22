@@ -13,7 +13,6 @@ elgg.tabbed_profile.sortable = function() {
 
     $('#profile-tabs-container').sortable({
         items: '.tabbed-profile-sortable',
-        containment: '#profile-tabs-container',
         update: function(event, ui) {
           var item = $(ui.item);
           var id = item.children('a:first-child').attr('rel');

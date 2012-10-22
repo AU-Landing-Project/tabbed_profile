@@ -25,3 +25,7 @@
 .tabbed_profile_iframe_height {
   width: 60px;
 }
+
+li.tabbed-profile-sortable, li.tabbed-profile-sortable a {
+  cursor: move;
+}
