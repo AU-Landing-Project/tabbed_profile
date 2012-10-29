@@ -4,6 +4,7 @@ x.x
 
 1.1 (10/29/2012):
  - fixes issue with widget context on group profiles
+ - fixes issue with selected tab display on default group url
 
 1.0 (10/22/2012):
  - initial release

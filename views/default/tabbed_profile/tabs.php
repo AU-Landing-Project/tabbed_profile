@@ -27,11 +27,16 @@ if ($profiles) {
       $text .= '<span class="elgg-icon elgg-icon-settings-alt tabbed-profile-edit"></span>';
       $class = 'tabbed-profile-sortable';
     }
+    
+    $selected = ($profile->getURL() == current_page_url());
+    if (!$selected && $profile->default) {
+      $selected = ($page_owner->getURL() == current_page_url());
+    }
 
     $tabs[] = array(
       'text' => $text,
       'href' => $profile->getURL(),
-      'selected' => ($profile->getURL() == current_page_url()),
+      'selected' => $selected,
       'link_class' => 'tabbed_profile',
       'class' => $class,
       'rel' => $profile->getGUID()
