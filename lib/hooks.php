@@ -126,6 +126,20 @@ function tabbed_profile_permissions_check($hook, $type, $return, $params) {
 
 function tabbed_profile_widget_context_normalize($hook, $type, $return, $params) {
   if (strpos($return, 'tabbed_profile_user_') !== false) {
-    return 'profile';
+    $guid = (int) str_replace('tabbed_profile_user_', '', $return);
+    
+    $profile = get_entity($guid);
+    if (!$profile) {
+      return $return;
+    }
+    
+    $container = $profile->getContainerEntity();
+    
+    if (elgg_instanceof($container, 'user')) {
+      return 'profile';
+    }
+    else {
+      return 'groups';
+    }
   }
 }
