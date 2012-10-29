@@ -45,7 +45,6 @@ if ($profiles) {
     if ($profile->default) {
       $defaultdetected = true;
     }
-    //$profile->delete();
   }
 }
 
