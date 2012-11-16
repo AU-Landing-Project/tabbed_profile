@@ -26,10 +26,6 @@ function tabbed_profile_user_router($hook, $type, $return, $params) {
       forward($user->getURL());
     }
     
-    if ($profile->default) {
-      return $return;
-    }
-    
     // so we have a valid user and a valid profile
     elgg_set_page_owner_guid($user->getGUID());
     tabbed_profile_draw_user_profile($profile);
@@ -50,7 +46,7 @@ function tabbed_profile_user_router($hook, $type, $return, $params) {
         
     // forward to the first tab we have access to
     // default profile gets handled by the profile plugin
-    if ($profile && !$profile[0]->default) {
+    if ($profile) {
       forward($profile[0]->getURL());
     }
     
@@ -84,10 +80,6 @@ function tabbed_profile_group_router($hook, $type, $return, $params) {
       if (!elgg_instanceof($profile, 'object', 'tabbed_profile')) {
         return $return;
       }
-      
-      if ($profile->default) {
-        return $return;
-      }
     
       // so we have a valid group and a valid profile
       elgg_set_page_owner_guid($group->getGUID());
@@ -108,7 +100,7 @@ function tabbed_profile_group_router($hook, $type, $return, $params) {
       ));
     
       // forward to the first tab we have access to
-      if ($profile && !$profile[0]->default) {
+      if ($profile) {
         forward($profile[0]->getURL());
       }
     }
@@ -124,22 +116,23 @@ function tabbed_profile_permissions_check($hook, $type, $return, $params) {
 }
 
 
+function tabbed_profile_widgets_add_action_handler($hook, $type, $return, $params) {
+  $widget_context = get_input('context', false);
+  if($widget_context){
+	if(stristr($widget_context, 'tabbed_profile::') !== false){
+	  $context_parts = explode('::', $widget_context);
+				
+	  set_input("context", $context_parts[1]);
+	  set_input("tabbed_profile_guid", $context_parts[2]);
+	}
+  }
+}
+
+
 function tabbed_profile_widget_context_normalize($hook, $type, $return, $params) {
-  if (strpos($return, 'tabbed_profile_user_') !== false) {
-    $guid = (int) str_replace('tabbed_profile_user_', '', $return);
-    
-    $profile = get_entity($guid);
-    if (!$profile) {
-      return $return;
-    }
-    
-    $container = $profile->getContainerEntity();
-    
-    if (elgg_instanceof($container, 'user')) {
-      return 'profile';
-    }
-    else {
-      return 'groups';
-    }
+  if (strpos($return, 'tabbed_profile::') === 0) {
+    $context_parts = explode('::', $return);
+	
+	return $context_parts[1];
   }
 }

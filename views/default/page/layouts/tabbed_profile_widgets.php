@@ -25,9 +25,9 @@ elgg_push_context('widgets');
 // add our magick language string
 $language = elgg_get_config('language');
 global $CONFIG;
-$CONFIG->translations[$language]['widget_manager:widgets:lightbox:title:tabbed_profile_user_' . $profile->getGUID()] = elgg_echo('tabbed_profile:user:widget:title');
+$CONFIG->translations[$language]["widget_manager:widgets:lightbox:title:tabbed_profile::{$context}::{$profile->guid}"] = elgg_echo('tabbed_profile:user:widget:title');
 
-$widgets = elgg_get_widgets($owner->guid, 'tabbed_profile_user_' . $profile->getGUID());
+$widgets = tabbed_profile_get_widgets($owner->guid, $context, $profile);
 
 if (elgg_can_edit_widget_layout($context)) {
 	if ($show_add_widgets) {
@@ -35,7 +35,7 @@ if (elgg_can_edit_widget_layout($context)) {
 	}
 	$params = array(
 		'widgets' => $widgets,
-		'context' => 'tabbed_profile_user_' . $profile->getGUID(),
+		'context' => "tabbed_profile::{$context}::{$profile->guid}",
 		'exact_match' => $exact_match,
 	);
 	echo elgg_view('page/layouts/widgets/add_panel', $params);

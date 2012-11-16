@@ -2,6 +2,11 @@
 
 x.x
 
+1.2 ():
+ - makes widget manager a required dependency
+ - fixes language string for profile tab deletion
+ - changes the method for widget context determination
+
 1.1 (10/29/2012):
  - fixes issue with widget context on group profiles
  - fixes issue with selected tab display on default group url
