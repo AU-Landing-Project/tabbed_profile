@@ -33,14 +33,20 @@ function tabbed_profile_draw_group_profile($profile) {
 	global $autofeed;
 	$autofeed = true;
 
-	elgg_push_context('group_profile');
+	// this context issue is unique to the AU theme, not necessary for core compatibility
+	if ($profile->profile_type == 'widgets' && $profile->group_sidebar == 'no') {
+	  elgg_push_context('group_profile_tabs');
+	}
+	else {
+	  // default
+	  elgg_push_context('group_profile');
+	}
 
 	$group = elgg_get_page_owner_entity();
 
 	elgg_push_breadcrumb($group->name);
 
 	groups_register_profile_buttons($group);
-  elgg_set_context('tabbed-profile-group');
   
   $layout = 'one_column';
 	if (group_gatekeeper(false) && $profile->group_sidebar == 'yes') {

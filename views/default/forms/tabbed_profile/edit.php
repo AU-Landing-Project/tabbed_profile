@@ -43,7 +43,6 @@ if (!$profile->default) {
   echo "<br><br>";
 
   // widgets profile type conditional settings
-
   $style = ($profile && ($profile->profile_type != 'widgets')) ? ' style="display:none"' : '';
   echo '<div class="tabbed-profile-widgets-form"' . $style . '>';
   echo elgg_view('forms/tabbed_profile/widgets_conditional', array('entity' => $profile));
@@ -57,7 +56,7 @@ if (!$profile->default) {
   echo '</div>';
 
   if (elgg_instanceof($container, 'group')) {
-    echo "<label>" . elgg_echo('tabbed_profile:group:sidebar') . "</label>";
+    echo "<label>" . elgg_echo('tabbed_profile:group:sidebar') . "</label>&nbsp;";
     echo elgg_view('input/dropdown', array(
       'name' => 'group_sidebar',
       'value' => $profile->group_sidebar ? $profile->group_sidebar : 'yes',
