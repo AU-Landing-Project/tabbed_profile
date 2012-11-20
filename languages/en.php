@@ -37,8 +37,16 @@ $english = array(
 	/*  WIDGETS  */
 	'tabbed_profile:group_avatar:widget:title' => "Group Avatar",
 	'tabbed_profile:group_avatar:widget:description' => "Display the group avatar in a selectable size",
+	'tabbed_profile:group_stats:widget:title' => "Group Stats",
+	'tabbed_profile:group_stats:widget:description' => "Display the group owner and membership count",
+	'tabbed_profile:group_profile:widget:title' => "Group Profile",
+	'tabbed_profile:group_profile:widget:description' => "Display the group profile details",
 	'tabbed_profile:user_avatar:widget:title' => "User Avatar",
 	'tabbed_profile:user_avatar:widget:description' => "Display the user avatar in a selectable size",
+	'tabbed_profile:user_details:widget:title' => "User Details",
+	'tabbed_profile:user_details:widget:description' => "Display the profile information",
+	'tabbed_profile:user_menu:widget:title' => "User Menu",
+	'tabbed_profile:user_menu:widget:description' => "Display the profile menu - content and action links",
 	'tabbed_profile:avatar:select:size' => "Select the size of the avatar",
 	'tabbed_profile:avatar:select:align' => "Align the image",
 );

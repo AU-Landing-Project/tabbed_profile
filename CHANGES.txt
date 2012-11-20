@@ -2,12 +2,13 @@
 
 x.x (mm/dd/yyyy):
 
-1.2 ():
+1.2 (11/20/2012):
  - makes widget manager a required dependency
  - fixes language string for profile tab deletion
  - changes the method for widget context determination
  - makes tab creation/edit form more logical for groups with widgets disabled
  - adds profile widgets for various portions of the profile - additional flexibility
+ - fixes issue with profile edit redirection
 
 1.1 (10/29/2012):
  - fixes issue with widget context on group profiles

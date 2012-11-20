@@ -31,9 +31,9 @@ function tabbed_profile_user_router($hook, $type, $return, $params) {
     tabbed_profile_draw_user_profile($profile);
     return true;
   }
-  
-  // default profile page
-  // show the first profile we have access to see
+  elseif (empty($return['segments'][1])) {
+	// default profile page
+	// show the first profile we have access to see
   if ($user && $user->tabbed_profile_setup) {
     $profile = elgg_get_entities_from_metadata(array(
       'types' => array('object'),
@@ -57,6 +57,7 @@ function tabbed_profile_user_router($hook, $type, $return, $params) {
       register_error(elgg_echo('tabbed_profile:private:profile'));
       forward(REFERER);
     }
+  }
   }
 }
 

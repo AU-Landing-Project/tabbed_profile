@@ -47,7 +47,11 @@ function tabbed_profile_init() {
  
  // register our widgets
  elgg_register_widget_type('group_avatar', elgg_echo("tabbed_profile:group_avatar:widget:title"), elgg_echo("tabbed_profile:group_avatar:widget:description"), 'groups', TRUE);
+ elgg_register_widget_type('group_profile_stats', elgg_echo("tabbed_profile:group_stats:widget:title"), elgg_echo("tabbed_profile:group_stats:widget:description"), 'groups', TRUE);
+ elgg_register_widget_type('group_profile_block', elgg_echo("tabbed_profile:group_profile:widget:title"), elgg_echo("tabbed_profile:group_profile:widget:description"), 'groups', TRUE);
  elgg_register_widget_type('user_avatar', elgg_echo("tabbed_profile:user_avatar:widget:title"), elgg_echo("tabbed_profile:user_avatar:widget:description"), 'profile', TRUE);
+ elgg_register_widget_type('user_profile_block', elgg_echo("tabbed_profile:user_details:widget:title"), elgg_echo("tabbed_profile:user_details:widget:description"), 'profile', TRUE);
+ elgg_register_widget_type('user_menu_block', elgg_echo("tabbed_profile:user_menu:widget:title"), elgg_echo("tabbed_profile:user_menu:widget:description"), 'profile', TRUE);
 }
 
 
