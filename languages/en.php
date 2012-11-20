@@ -33,6 +33,14 @@ $english = array(
     'tabbed_profile:iframe:height' => 'iFrame height',
     'tabbed_profile:tab:access' => "Who can see this profile?",
     'tabbed_profile:group:sidebar' => "Display group sidebar?",
+	
+	/*  WIDGETS  */
+	'tabbed_profile:group_avatar:widget:title' => "Group Avatar",
+	'tabbed_profile:group_avatar:widget:description' => "Display the group avatar in a selectable size",
+	'tabbed_profile:user_avatar:widget:title' => "User Avatar",
+	'tabbed_profile:user_avatar:widget:description' => "Display the user avatar in a selectable size",
+	'tabbed_profile:avatar:select:size' => "Select the size of the avatar",
+	'tabbed_profile:avatar:select:align' => "Align the image",
 );
 					
 add_translation("en",$english);

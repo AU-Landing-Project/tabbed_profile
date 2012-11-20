@@ -44,6 +44,10 @@ function tabbed_profile_init() {
  elgg_register_event_handler('create', 'object', 'tabbed_profile_widget_create');
  
  elgg_register_ajax_view('tabbed_profile/edit');
+ 
+ // register our widgets
+ elgg_register_widget_type('group_avatar', elgg_echo("tabbed_profile:group_avatar:widget:title"), elgg_echo("tabbed_profile:group_avatar:widget:description"), 'groups', TRUE);
+ elgg_register_widget_type('user_avatar', elgg_echo("tabbed_profile:user_avatar:widget:title"), elgg_echo("tabbed_profile:user_avatar:widget:description"), 'profile', TRUE);
 }
 
 
