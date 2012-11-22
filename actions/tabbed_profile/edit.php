@@ -23,6 +23,14 @@ if (!$container || !$container->canEdit() || ($profile && !$profile->canEdit()))
 
 // if we're deleting, we can take care of that and not worry about anything else
 if ($profile && $delete) {
+  if (elgg_instanceof($container, 'group')) {
+	$context = 'groups';
+  }
+  else {
+	$context = 'profile';
+  }
+  
+  $dbprefix = elgg_get_config('dbprefix');
   
   //delete any widgets on this profile
   $widgets = elgg_get_entities_from_private_settings(array(
@@ -30,7 +38,14 @@ if ($profile && $delete) {
       'subtypes' => array('widget'),
       'owner_guids' => array($container->getGUID()),
       'private_setting_name' => 'context',
-      'private_setting_value' => 'tabbed_profile_user_' . $profile->getGUID()
+      'private_setting_value' => $context,
+	  'wheres' => array(
+		"EXISTS (
+		  SELECT 1 FROM {$dbprefix}entity_relationships r
+		  WHERE r.guid_one = e.guid
+		  AND r.relationship = '" . TABBED_PROFILE_WIDGET_RELATIONSHIP . "'
+		  AND r.guid_two = {$profile->guid})"
+	)
   ));
   
   foreach($widgets as $widget) {
