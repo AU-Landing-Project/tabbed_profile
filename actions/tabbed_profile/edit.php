@@ -12,7 +12,7 @@ $iframe_url = get_input('iframe_url', false);
 $iframe_height = get_input('iframe_height', false);
 $group_sidebar = get_input('group_sidebar', 'yes');
 $delete = get_input('delete', false);
-$access = get_input('access');
+$access = get_input('access', ACCESS_PUBLIC);
 
 $profile = get_entity($profile_guid);
 $container = get_entity($container_guid);
