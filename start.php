@@ -21,11 +21,8 @@ function tabbed_profile_init() {
 	elgg_register_simplecache_view('js/tabbed_profile/js');
 	elgg_register_js('tabbed_profile.js', $js);
   
-
-  
   // create urls for tabs
   elgg_register_entity_url_handler('object', 'tabbed_profile', 'tabbed_profile_url_handler');
-  elgg_register_entity_url_handler('user', 'all', 'tabbed_profile_user_url_handler');
   
   elgg_register_library('tabbed_profile', dirname(__FILE__) . '/lib/tabbed_profile.php');
   
