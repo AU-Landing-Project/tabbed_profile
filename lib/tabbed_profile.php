@@ -1,6 +1,35 @@
 <?php
 
+/**
+ * update old profile tabs with default metadata
+ * @param type $profile
+ * @return type
+ */
+function tabbed_profile_default_metadata($profile) {
+  $context = elgg_get_context();
+  elgg_set_context('tabbed_profile_permissions');
+  $ignore = elgg_set_ignore_access(true);
+  
+  // save our metadata
+  $profile->order = $profile->order ? $profile->order : 1;
+  $profile->default = 1;
+  $profile->profile_type = $profile->profile_type ? $profile->profile_type : 'widgets';
+  $profile->widget_layout = $profile->widget_layout ? $profile->widget_layout : elgg_instanceof($page_owner, 'user') ? 3 : 2;
+  $profile->widget_profile_display = $profile->widget_profile_display ? $profile->widget_profile_display : 'yes';
+  $profile->group_sidebar = $profile->group_sidebar ? $profile->group_sidebar : 'yes';
+  $profile->md_version = '1.5';
+  
+  elgg_set_ignore_access($ignore);
+  elgg_set_context($context);
+  
+  return $profile;
+}
+
 function tabbed_profile_draw_user_profile($profile) {
+  if ($profile->default && ($profile->md_version != '1.5')) {
+	$profile = tabbed_profile_default_metadata($profile);
+  }
+  
   $layout = 'tabbed_profile_' . $profile->profile_type;
   $owner = $profile->getContainerEntity();
   
@@ -104,6 +133,7 @@ function tabbed_profile_generate_default_profile($page_owner) {
   $profile->widget_layout = elgg_instanceof($page_owner, 'user') ? 3 : 2;
   $profile->widget_profile_display = 'yes';
   $profile->group_sidebar = 'yes';
+  $profile->md_version = '1.5';
   
   $page_owner->tabbed_profile_setup = 1;
   
