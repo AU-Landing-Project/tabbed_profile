@@ -2,6 +2,9 @@
 
 x.x (mm/dd/yyyy):
 
+1.6 ():
+ - fixes tab limit enforcement (thanks to RiverVanRain)
+
 1.5 (12/11/2012):
  - overwrites page/layouts/widgets/add_panel to allow WM to control which widgets are active
  - fixes white screen on admin default widgets form
