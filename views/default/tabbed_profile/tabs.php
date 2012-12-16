@@ -62,7 +62,7 @@ if (!$defaultdetected && elgg_get_plugin_setting('private_user_profile', 'tabbed
 }
 
 
-if ($page_owner->canEdit() && count($profiles < 7)) {
+if ($page_owner->canEdit() && count($profiles) < TABBED_PROFILE_MAX_TABS) {
   elgg_load_js('lightbox');
   elgg_load_css('lightbox');
   
