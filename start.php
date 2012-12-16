@@ -1,6 +1,7 @@
 <?php
 
 define(TABBED_PROFILE_WIDGET_RELATIONSHIP, 'widget_of_profile_tab');
+define(TABBED_PROFILE_MAX_TABS, 7);
 
 elgg_register_event_handler('init', 'system', 'tabbed_profile_init');
 
