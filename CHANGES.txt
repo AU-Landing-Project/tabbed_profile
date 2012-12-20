@@ -2,7 +2,7 @@
 
 x.x (mm/dd/yyyy):
 
-1.6 ():
+1.6 (12/20/2012):
  - fixes tab limit enforcement (thanks to RiverVanRain)
  - fixes profile layout for groups using iframe with sidebar
  - adds title menu to groups one_column layout without sidebar
