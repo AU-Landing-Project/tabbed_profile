@@ -72,14 +72,20 @@ function tabbed_profile_draw_group_profile($profile) {
 	}
 
 	$group = elgg_get_page_owner_entity();
+	$title = $group->name;
 
 	elgg_push_breadcrumb($group->name);
 
 	groups_register_profile_buttons($group);
   
-  $layout = 'one_column';
+  $layout = 'content';
+  $content = '';
+  if ($profile->group_sidebar == 'no') {
+	$layout = 'one_column';
+	$content .= elgg_view_menu('title');
+  }
+  
 	if (group_gatekeeper(false) && $profile->group_sidebar == 'yes') {
-    $layout = 'content';
 		$sidebar = '';
 		if (elgg_is_active_plugin('search')) {
 			$sidebar .= elgg_view('groups/sidebar/search', array('entity' => $group));
@@ -90,16 +96,16 @@ function tabbed_profile_draw_group_profile($profile) {
 	}
   
   if ($profile->profile_type == 'iframe') {
-    $content = elgg_view_layout('tabbed_profile_iframe', array('profile' => $profile));
+    $content .= elgg_view_layout('tabbed_profile_iframe', array('profile' => $profile));
   }
   else {
-    $content = elgg_view('groups/profile/layout', array('entity' => $group, 'profile' => $profile));
+    $content .= elgg_view('groups/profile/layout', array('entity' => $group, 'profile' => $profile));
   }
 
 	$params = array(
 		'content' => $content,
 		'sidebar' => $sidebar,
-		'title' => $group->name,
+		'title' => $title,
 		'filter' => '',
 	);
 	$body = elgg_view_layout($layout, $params);
