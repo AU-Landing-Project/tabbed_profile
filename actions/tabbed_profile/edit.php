@@ -65,6 +65,26 @@ if (!$title) {
   forward(REFERER);
 }
 
+// prevent xss
+if ($profile_type == 'iframe') {
+  // see https://bugs.php.net/bug.php?id=51192
+  $php_5_2_13_and_below = version_compare(PHP_VERSION, '5.2.14', '<');
+  $php_5_3_0_to_5_3_2 = version_compare(PHP_VERSION, '5.3.0', '>=') && version_compare(PHP_VERSION, '5.3.3', '<');
+
+  $validated = false;
+  if ($php_5_2_13_and_below || $php_5_3_0_to_5_3_2) {
+	$tmp_address = str_replace("-", "", $iframe_url);
+	$validated = filter_var($tmp_address, FILTER_VALIDATE_URL);
+  } else {
+	$validated = filter_var($iframe_url, FILTER_VALIDATE_URL);
+  }
+  
+  if (!$validated) {
+	register_error(elgg_echo('tabbed_profile:error:address'));
+	forward(REFERER);
+  }
+}
+
 // create/update our tab
 $action_type = 'update';
 if (!$profile) {
