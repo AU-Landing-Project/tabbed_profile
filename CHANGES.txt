@@ -2,6 +2,10 @@
 
 x.x (mm/dd/yyyy):
 
+1.7 ():
+ - prevent js injection in iframe tab
+ - fix widget layout when group default tab is renamed
+
 1.6 (12/20/2012):
  - fixes tab limit enforcement (thanks to RiverVanRain)
  - fixes profile layout for groups using iframe with sidebar

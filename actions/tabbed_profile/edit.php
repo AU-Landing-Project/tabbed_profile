@@ -6,7 +6,7 @@ $container_guid = get_input('container_guid', false);
 
 $title = get_input('title', false);
 $profile_type = get_input('profile_type', 'widgets');
-$widget_layout = get_input('widget_layout', 3);
+$widget_layout = get_input('widget_layout', false);
 $widget_profile_display = get_input('widget_profile_display', 'yes');
 $iframe_url = get_input('iframe_url', false);
 $iframe_height = get_input('iframe_height', false);
@@ -63,6 +63,10 @@ if ($profile && $delete) {
 if (!$title) {
   register_error(elgg_echo('tabbed_profile:error:notitle'));
   forward(REFERER);
+}
+
+if (!$widget_layout) {
+  $widget_layout = elgg_instanceof($container, 'group') ? 2 : 3;
 }
 
 // prevent xss
