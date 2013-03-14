@@ -2,7 +2,10 @@
 
 x.x (mm/dd/yyyy):
 
-1.7 ():
+1.8 ():
+ - adds 'my_status' into group profile sidebars
+
+1.7 (01/11/2013):
  - prevent js injection in iframe tab
  - fix widget layout when group default tab is renamed
 
