@@ -1,5 +1,5 @@
 {
-    "name": "AU/tabbed_profile",
+    "name": "au/tabbed_profile",
     "type": "elgg-plugin",
     "description": "Users/Groups can have multiple profile pages for different contexts/viewers",
     "homepage": "https://github.com/AU-Landing-Project/tabbed_profile",
