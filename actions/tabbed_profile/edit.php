@@ -1,5 +1,6 @@
 <?php
-elgg_load_library('tabbed_profile');
+
+namespace AU\TabbedProfile;
 
 $profile_guid = get_input('guid', false);
 $container_guid = get_input('container_guid', false);
@@ -70,20 +71,8 @@ if (!$widget_layout) {
 }
 
 // prevent xss
-if ($profile_type == 'iframe') {
-  // see https://bugs.php.net/bug.php?id=51192
-  $php_5_2_13_and_below = version_compare(PHP_VERSION, '5.2.14', '<');
-  $php_5_3_0_to_5_3_2 = version_compare(PHP_VERSION, '5.3.0', '>=') && version_compare(PHP_VERSION, '5.3.3', '<');
-
-  $validated = false;
-  if ($php_5_2_13_and_below || $php_5_3_0_to_5_3_2) {
-	$tmp_address = str_replace("-", "", $iframe_url);
-	$validated = filter_var($tmp_address, FILTER_VALIDATE_URL);
-  } else {
-	$validated = filter_var($iframe_url, FILTER_VALIDATE_URL);
-  }
-  
-  if (!$validated) {
+if ($profile_type == 'iframe') {  
+  if (!filter_var($iframe_url, FILTER_VALIDATE_URL)) {
 	register_error(elgg_echo('tabbed_profile:error:address'));
 	forward(REFERER);
   }
@@ -94,13 +83,12 @@ $action_type = 'update';
 if (!$profile) {
   $action_type = 'create';
   
-  $profile = new ElggObject();
-  $profile->subtype = 'tabbed_profile';
+  $profile = new Profile();
   $profile->owner_guid = elgg_get_logged_in_user_guid();
   $profile->container_guid = $container->getGUID();
   
   // set this tab as the last one
-  $last_order = tabbed_profile_get_last_order($container);
+  $last_order = Profile::getLastOrder($container);
   $profile->order = $last_order + 1;
 }
 

@@ -1,4 +1,7 @@
 <?php
+
+namespace AU\TabbedProfile;
+
 /**
  * Elgg widgets layout
  *
@@ -23,11 +26,12 @@ $context = elgg_get_context();
 elgg_push_context('widgets');
 
 // add our magick language string
+// @todo - 1.9?
 $language = elgg_get_config('language');
 global $CONFIG;
 $CONFIG->translations[$language]["widget_manager:widgets:lightbox:title:tabbed_profile::{$context}::{$profile->guid}"] = elgg_echo('tabbed_profile:user:widget:title');
 
-$widgets = tabbed_profile_get_widgets($owner->guid, $context, $profile);
+$widgets = $profile->getWidgets($context);
 
 if (elgg_can_edit_widget_layout($context)) {
 	if ($show_add_widgets) {

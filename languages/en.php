@@ -10,6 +10,7 @@ $english = array(
     'tabbed_profile:user:widget:title' => "Add widgets to your profile",
     'tabbed_profile:private:profile' => "You don't have the required permissions to view this profile",
 	'tabbed_profile:error:address' => "An invalid iframe url was entered",
+	'tabbed_profile:url:open_tab' => 'View in a separate tab/window',
     
     /* Settings */
     'tabbed_profile:settings:user_enable' => "Enable tabbed user profiles?",

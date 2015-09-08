@@ -1,5 +1,9 @@
 <?php
 
+namespace AU\TabbedProfile;
+
+//@todo - 1.9?
+
 $user = $vars['entity']->getContainerEntity();
 
 // grab the actions and admin menu items from user hover
@@ -31,14 +35,14 @@ if (elgg_is_admin_logged_in() && elgg_get_logged_in_user_guid() != elgg_get_page
 	}
 	$admin_links .= '</ul>';
 	$admin_links .= '</li>';
-	$admin_links .= '</ul>';	
+	$admin_links .= '</ul>';
 }
 
 // content links
 $content_menu = elgg_view_menu('owner_block', array(
 	'entity' => elgg_get_page_owner_entity(),
 	'class' => 'profile-content-menu',
-));
+		));
 
 echo <<<HTML
 

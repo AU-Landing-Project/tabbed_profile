@@ -1,5 +1,7 @@
 <?php
 
+namespace AU\TabbedProfile;
+
 echo elgg_echo('tabbed_profile:avatar:select:size') . ': ';
 
 echo elgg_view('input/dropdown', array(

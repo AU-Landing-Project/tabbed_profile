@@ -1,5 +1,7 @@
 <?php
 
+namespace AU\TabbedProfile;
+
 // enable tabbed user profile?
 echo elgg_view('input/dropdown', array(
     'name' => 'params[user_enable]',

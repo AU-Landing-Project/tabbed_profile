@@ -2,6 +2,10 @@
 
 x.x (mm/dd/yyyy):
 
+2.0 ():
+ - upgrade for elgg 1.9
+ - general code cleanup
+
 1.8 ():
  - adds 'my_status' into group profile sidebars
 

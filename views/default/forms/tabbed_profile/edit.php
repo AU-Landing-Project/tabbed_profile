@@ -1,5 +1,7 @@
 <?php
 
+namespace AU\TabbedProfile;
+
 $container = $vars['entity'];
 $profile = get_entity($vars['profile_guid']);
 
@@ -74,7 +76,7 @@ if (!$profile->default) {
 
 // access
 if (!$profile->default
-        || (elgg_get_plugin_setting('private_user_profile', 'tabbed_profile') == 'yes' && elgg_instanceof($container, 'user'))
+        || (elgg_get_plugin_setting('private_user_profile', PLUGIN_ID) == 'yes' && elgg_instanceof($container, 'user'))
         ) {
   $options = array('name' => 'access');
   if ($profile) {

@@ -1,5 +1,7 @@
 <?php
 
+namespace AU\TabbedProfile;
+
 $user = $vars['entity']->getContainerEntity();
 $size = $vars['entity']->avatar_size ? $vars['entity']->avatar_size : 'large';
 $align = $vars['entity']->avatar_align ? $vars['entity']->avatar_align : 'center';

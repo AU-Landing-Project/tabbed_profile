@@ -1,4 +1,7 @@
 <?php
+
+namespace AU\TabbedProfile;
+
 /**
  * Layout of the groups profile page
  *

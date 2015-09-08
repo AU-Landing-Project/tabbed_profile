@@ -1,8 +1,10 @@
 <?php
 
-function tabbed_profile_user_router($hook, $type, $return, $params) {
+namespace AU\TabbedProfile;
+
+function user_router($hook, $type, $return, $params) {
   
-  elgg_load_library('tabbed_profile');
+  //@todo amd
   elgg_load_js('tabbed_profile.js');
   
   $user = get_user_by_username($return['segments'][0]);
@@ -28,7 +30,7 @@ function tabbed_profile_user_router($hook, $type, $return, $params) {
     
     // so we have a valid user and a valid profile
     elgg_set_page_owner_guid($user->getGUID());
-    tabbed_profile_draw_user_profile($profile);
+    $profile->render();
     return true;
   }
   elseif (empty($return['segments'][1])) {
@@ -63,10 +65,9 @@ function tabbed_profile_user_router($hook, $type, $return, $params) {
 
 
 
-function tabbed_profile_group_router($hook, $type, $return, $params) {
+function group_router($hook, $type, $return, $params) {
   
   if ($return['segments'][0] == 'profile') {
-    elgg_load_library('tabbed_profile');
     elgg_load_library('elgg:groups');
     elgg_load_js('tabbed_profile.js');
     
@@ -84,7 +85,7 @@ function tabbed_profile_group_router($hook, $type, $return, $params) {
     
       // so we have a valid group and a valid profile
       elgg_set_page_owner_guid($group->getGUID());
-      tabbed_profile_draw_group_profile($profile);
+      $profile->render();
       return true;
     }
     
@@ -110,14 +111,14 @@ function tabbed_profile_group_router($hook, $type, $return, $params) {
 
 
 
-function tabbed_profile_permissions_check($hook, $type, $return, $params) {
+function permissions_check($hook, $type, $return, $params) {
   if (elgg_get_context() == 'tabbed_profile_permissions') {
     return true;
   }
 }
 
 
-function tabbed_profile_widgets_add_action_handler($hook, $type, $return, $params) {
+function widgets_add_action_handler($hook, $type, $return, $params) {
   $widget_context = get_input('context', false);
   if($widget_context){
 	if(stristr($widget_context, 'tabbed_profile::') !== false){
@@ -130,7 +131,7 @@ function tabbed_profile_widgets_add_action_handler($hook, $type, $return, $param
 }
 
 
-function tabbed_profile_widget_context_normalize($hook, $type, $return, $params) {
+function widget_context_normalize($hook, $type, $return, $params) {
   if (strpos($return, 'tabbed_profile::') === 0) {
     $context_parts = explode('::', $return);
 	
