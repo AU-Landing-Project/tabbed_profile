@@ -1,0 +1,19 @@
+{
+    "name": "AU/tabbed_profile",
+    "type": "elgg-plugin",
+    "description": "Users/Groups can have multiple profile pages for different contexts/viewers",
+    "homepage": "https://github.com/AU-Landing-Project/tabbed_profile",
+    "keywords": ["elgg", "plugin", "profile", "tabbed profile"],
+    "license": "GPL-2.0",
+    "authors": [
+        {
+            "name": "Matt Beckett"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/AU-Landing-Project/tabbed_profile/issues"
+    },
+    "require": {
+        "composer/installers": ">=1.0.8"
+    }
+}
