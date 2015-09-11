@@ -6,9 +6,10 @@ $profile = $vars['entity'];
 
 // iframe url
 echo "<label>" . elgg_echo('tabbed_profile:iframe:label') . "</label><br>";
-echo elgg_view('input/url', array(
+echo elgg_view('input/text', array(
 	'name' => 'iframe_url',
-	'value' => $profile->iframe_url ? $profile->iframe_url : 'http://'
+	'placeholder' => 'https://example.com',
+	'value' => $profile->iframe_url ? $profile->iframe_url : ''
 ));
 
 echo '<div class="elgg-subtext">';
@@ -19,8 +20,8 @@ echo "<br><br>";
 
 
 // iframe height
-echo "<label>" . elgg_echo('tabbed_profile:iframe:height') . "</label>";
-echo elgg_view('input/url', array(
+echo "<label>" . elgg_echo('tabbed_profile:iframe:height') . "</label>&nbsp;";
+echo elgg_view('input/text', array(
 	'name' => 'iframe_height',
 	'value' => $profile->iframe_height ? $profile->iframe_height : 500,
 	'maxlength' => '4',

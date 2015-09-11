@@ -8,9 +8,8 @@ const PLUGIN_ID = 'tabbed_profile';
 const PLUGIN_VERSION = 20150905;
 
 require_once __DIR__ . '/lib/hooks.php';
-require_once __DIR__ . '/lib/functions.php';
 
-elgg_register_event_handler('init', 'system', 'init');
+elgg_register_event_handler('init', 'system', __NAMESPACE__ . '\\init');
 
 
 function init() {
@@ -22,19 +21,14 @@ function init() {
   elgg_extend_view('page/layouts/tabbed_profile_widgets', 'tabbed_profile/navigation', 0);
   elgg_extend_view('tabbed_profile/iframe', 'tabbed_profile/navigation', 0);
   
-  // register our js
-  $js = elgg_get_simplecache_url('js', 'tabbed_profile/js');
-	elgg_register_simplecache_view('js/tabbed_profile/js');
-	elgg_register_js('tabbed_profile.js', $js);
-  
   // create urls for tabs
-  elgg_register_entity_url_handler('object', 'tabbed_profile', __NAMESPACE__ . '\\url_handler');
-  
+  elgg_register_plugin_hook_handler('entity:url', 'object', __NAMESPACE__ . '\\url_handler');
+
   // register our plugin hooks
  elgg_register_plugin_hook_handler('route', 'profile', __NAMESPACE__ . '\\user_router');
  elgg_register_plugin_hook_handler('route', 'groups', __NAMESPACE__ . '\\group_router');
  elgg_register_plugin_hook_handler('permissions_check', 'all', __NAMESPACE__ . '\\permissions_check');
- elgg_register_plugin_hook_handler('available_widgets_context', 'widget_manager', __NAMESPACE__ . '\\_widget_context_normalize');
+ elgg_register_plugin_hook_handler('available_widgets_context', 'widget_manager', __NAMESPACE__ . '\\widget_context_normalize');
  elgg_register_plugin_hook_handler('action', 'widgets/add', __NAMESPACE__ . '\\widgets_add_action_handler');
  
  // register actions
@@ -56,18 +50,6 @@ function init() {
  
  // register for upgrades
  elgg_register_event_handler('upgrade', 'system', __NAMESPACE__ . '\\upgrades');
-}
-
-
-/**
- * Get url for our tabs
- * 
- * @param type $object
- * @return type
- */
-function url_handler($object) {
-  $container = $object->getContainerEntity();
-  return $container->getURL() . '/tab/' . $object->getGUID() . '/' . elgg_get_friendly_title($object->title);
 }
 
 
