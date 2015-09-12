@@ -2,6 +2,9 @@
 
 x.x (mm/dd/yyyy):
 
+2.1 (09/11/2015):
+ - upgrade for compatibility with widget_manager 5.1, elgg 1.10
+
 2.0 (09/11/2015):
  - upgrade for elgg 1.9
  - general code cleanup
