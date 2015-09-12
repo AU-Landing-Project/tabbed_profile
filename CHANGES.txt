@@ -2,9 +2,11 @@
 
 x.x (mm/dd/yyyy):
 
-2.0 ():
+2.0 (09/11/2015):
  - upgrade for elgg 1.9
  - general code cleanup
+ - less hackish way of adding dynamic translation
+ - better use of route hook, no longer returning html directly (you're welcome IK)
 
 1.8 ():
  - adds 'my_status' into group profile sidebars

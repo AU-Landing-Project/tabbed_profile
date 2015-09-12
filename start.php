@@ -22,10 +22,11 @@ function init() {
   elgg_extend_view('tabbed_profile/iframe', 'tabbed_profile/navigation', 0);
   
   // create urls for tabs
+  elgg_register_page_handler('profiletab', __NAMESPACE__ . '\\profiletab_pagehandler');
   elgg_register_plugin_hook_handler('entity:url', 'object', __NAMESPACE__ . '\\url_handler');
 
   // register our plugin hooks
- elgg_register_plugin_hook_handler('route', 'profile', __NAMESPACE__ . '\\user_router');
+ elgg_register_plugin_hook_handler('route', 'profile', __NAMESPACE__ . '\\profile_router');
  elgg_register_plugin_hook_handler('route', 'groups', __NAMESPACE__ . '\\group_router');
  elgg_register_plugin_hook_handler('permissions_check', 'all', __NAMESPACE__ . '\\permissions_check');
  elgg_register_plugin_hook_handler('available_widgets_context', 'widget_manager', __NAMESPACE__ . '\\widget_context_normalize');
@@ -87,4 +88,28 @@ function upgrades() {
 	require_once __DIR__ . '/lib/upgrades.php';
 	
 	run_function_once(__NAMESPACE__ . '\\upgrade_20150905');
+}
+
+
+/**
+ * Renders the profile page
+ * @param type $page
+ */
+function profiletab_pagehandler($page) {
+	
+	// dirty check to prevent duplicate urls
+	// we don't really want this url, just pagehandler to handle
+	// response from route hook
+	if (strpos(current_page_url(), elgg_get_site_url() . 'profiletab') === 0) {
+		return false;
+	}
+	
+	$profile = get_entity($page[0]);
+
+	if (!($profile instanceof Profile)) {
+		return false;
+	}
+
+	$profile->render();
+	return true;
 }

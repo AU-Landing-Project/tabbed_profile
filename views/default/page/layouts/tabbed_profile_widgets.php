@@ -20,10 +20,8 @@ $owner = elgg_get_page_owner_entity();
 $context = elgg_get_context();
 
 // add our magick language string
-// @todo - 1.9?
 $language = elgg_get_config('language');
-global $CONFIG;
-$CONFIG->translations[$language]["widget_manager:widgets:lightbox:title:tabbed_profile::{$context}::{$profile->guid}"] = elgg_echo('tabbed_profile:user:widget:title');
+add_translation($language, array("widget_manager:widgets:lightbox:title:tabbed_profile::{$context}::{$profile->guid}" => elgg_echo('tabbed_profile:user:widget:title')));
 
 $available_widgets_context = elgg_trigger_plugin_hook("available_widgets_context", "widget_manager", array(), $context);
 

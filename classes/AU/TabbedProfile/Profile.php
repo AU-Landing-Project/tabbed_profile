@@ -84,6 +84,9 @@ class Profile extends \ElggObject {
 	 * Render the profile
 	 */
 	public function render() {
+		// should be required by the route hook, but just in case
+		elgg_require_js('tabbed_profile/profile');
+		
 		$container = $this->getContainerEntity();
 		if ($container instanceof \ElggUser) {
 			$this->drawUserProfile();
@@ -93,7 +96,7 @@ class Profile extends \ElggObject {
 	}
 
 	/**
-	 * @todo check for 1.9 profile rendering
+	 * Render a user profile
 	 */
 	private function drawUserProfile() {
 		if ($this->default && ($this->md_version != '1.5')) {
@@ -127,15 +130,16 @@ class Profile extends \ElggObject {
 	}
 
 	/**
-	 * @todo check for 1.9 version of group page rendering
+	 * Render a group profile
 	 * 
 	 * @global boolean $autofeed
-	 * @global type $NOTIFICATION_HANDLERS
 	 */
 	private function drawGroupProfile() {
 		// turn this into a core function
 		global $autofeed;
 		$autofeed = true;
+		
+		elgg_load_library('elgg:groups');
 
 		// this context issue is unique to the AU theme, not necessary for core compatibility
 		if ($this->profile_type == 'widgets' && $this->group_sidebar == 'no') {
@@ -146,6 +150,7 @@ class Profile extends \ElggObject {
 		}
 
 		$group = $this->getContainerEntity();
+		elgg_set_page_owner_guid($group->guid);
 		$title = $group->name;
 
 		elgg_push_breadcrumb($group->name);
@@ -159,7 +164,7 @@ class Profile extends \ElggObject {
 			$content .= elgg_view_menu('title');
 		}
 
-		if (group_gatekeeper(false) && $this->group_sidebar == 'yes') {
+		if (elgg_group_gatekeeper(false) && $this->group_sidebar == 'yes') {
 			$sidebar = '';
 			if (elgg_is_active_plugin('search')) {
 				$sidebar .= elgg_view('groups/sidebar/search', array('entity' => $group));
@@ -168,10 +173,9 @@ class Profile extends \ElggObject {
 
 			$subscribed = false;
 			if (elgg_is_active_plugin('notifications')) {
-				global $NOTIFICATION_HANDLERS;
-
+				$NOTIFICATION_HANDLERS = _elgg_services()->notifications->getMethodsAsDeprecatedGlobal();
 				foreach ($NOTIFICATION_HANDLERS as $method => $foo) {
-					$relationship = check_entity_relationship(elgg_get_logged_in_user_guid(), 'notify' . $method, $guid);
+					$relationship = check_entity_relationship(elgg_get_logged_in_user_guid(), 'notify' . $method, $group->guid);
 
 					if ($relationship) {
 						$subscribed = true;
@@ -179,7 +183,7 @@ class Profile extends \ElggObject {
 					}
 				}
 			}
-
+			
 			$sidebar .= elgg_view('groups/sidebar/my_status', array(
 				'entity' => $group,
 				'subscribed' => $subscribed

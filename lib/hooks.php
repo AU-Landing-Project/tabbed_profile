@@ -2,9 +2,19 @@
 
 namespace AU\TabbedProfile;
 
-function user_router($hook, $type, $return, $params) {
-
-	//@todo amd
+/**
+ * Intercept the profile url and display an alternate profile if necessary
+ * @todo don't output html directly
+ * 
+ * @param type $hook
+ * @param type $type
+ * @param type $return
+ * @param type $params
+ * @return boolean
+ */
+function profile_router($hook, $type, $return, $params) {
+	
+	// required here for default initial profile
 	elgg_require_js('tabbed_profile/profile');
 
 	$user = get_user_by_username($return['segments'][0]);
@@ -30,8 +40,12 @@ function user_router($hook, $type, $return, $params) {
 
 		// so we have a valid user and a valid profile
 		elgg_set_page_owner_guid($user->getGUID());
-		$profile->render();
-		return false;
+		$return['identifier'] = 'profiletab';
+		$return['handler'] = 'profiletab';
+		$return['segments'] = array(
+			$profile->guid
+		);
+		return $return;
 	} elseif (empty($return['segments'][1])) {
 		// default profile page
 		// show the first profile we have access to see
@@ -60,11 +74,22 @@ function user_router($hook, $type, $return, $params) {
 	}
 }
 
+/**
+ * Intercept the group router and render an alternate profile
+ * @todo - don't output html directly
+ * 
+ * @param type $hook
+ * @param type $type
+ * @param type $return
+ * @param type $params
+ * @return boolean
+ */
 function group_router($hook, $type, $return, $params) {
+	
+	// required here for default initial profile
+	elgg_require_js('tabbed_profile/profile');
 
 	if ($return['segments'][0] == 'profile') {
-		elgg_load_library('elgg:groups');
-		elgg_load_js('tabbed_profile.js');
 
 		$group = get_entity($return['segments'][1]);
 		if (!elgg_instanceof($group, 'group')) {
@@ -80,8 +105,12 @@ function group_router($hook, $type, $return, $params) {
 
 			// so we have a valid group and a valid profile
 			elgg_set_page_owner_guid($group->getGUID());
-			$profile->render();
-			return true;
+			$return['identifier'] = 'profiletab';
+			$return['handler'] = 'profiletab';
+			$return['segments'] = array(
+				$profile->guid
+			);
+			return $return;
 		}
 
 		// default profile page
